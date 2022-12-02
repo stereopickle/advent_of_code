@@ -81,10 +81,9 @@ def part1(strategy):
 def part2(strategy):
     score = 0
     for opponent, outcome in strategy:
-        points = OUTCOMES[outcome]
+        score += OUTCOMES[outcome]
         condition = CONDITIONS[outcome]
-        points += getattr(Choice[opponent].value, condition)
-        score += points
+        score += getattr(Choice[opponent].value, condition) 
 
     return score
         
