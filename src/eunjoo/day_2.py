@@ -2,7 +2,6 @@
 # -*- coding: utf-8 -*-
 """
 Created on Fri Dec  2 15:19:28 2022
-
 @author: eunjoob
 """
 
@@ -22,9 +21,7 @@ for p in input_:
     sc = score_map[p]
     total += sc    
 
-print ("Day 2-1: Total Score", end = ": ")
-print(total)
-
+print (f"Day 2-1: Total Score: {total}")
 
 
 ## Day 2-2
@@ -46,18 +43,13 @@ for x in input_:
     hands = x.split(' ')
     op_hand = hands[0]
     if hands[1] == 'X': 
-        sc = 0
-        my_hand = guide[op_hand][2]
+        total_2 += guide[op_hand][2]
     elif hands[1] == 'Y':
-        sc = 3
-        my_hand = guide[op_hand][1]
+        total_2 += guide[op_hand][1]
     elif hands[1] == 'Z':
-        sc = 6
-        my_hand = guide[op_hand][0]
+        total_2 += guide[op_hand][0]
     else:
         "something's wrong"
-    total_2 += my_hand
 
-print ("Day 2-2: Total Score (2)", end = ": ")
-print(sum(outcomes)+total_2)
+print (f"Day 2-2: Total Score (2): {sum(outcomes)+total_2}")
 

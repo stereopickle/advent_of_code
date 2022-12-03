@@ -2,7 +2,6 @@
 # -*- coding: utf-8 -*-
 """
 Created on Sat Dec  3 11:04:50 2022
-
 @author: eunjoob
 """
 
@@ -16,7 +15,6 @@ with open(input_path, 'r') as f:
 
 runsacks = [[x[:int(len(x)/2)], x[int(len(x)/2):]] for x in input_]
 
-## common items
 cm_items = [list(set(x[0]) & set(x[1]))[0] for x in runsacks]
 
 ## priorities
@@ -29,10 +27,7 @@ def get_priority(chr_):
         return ord(chr_) - 38
     
 total = sum([get_priority(x) for x in cm_items])    
-
-
-print ("Day 3-1: Total Priorities", end = ": ")
-print(total)
+print (f"Day 3-1: Total Priorities: {total}")
 
 
 
@@ -44,5 +39,4 @@ for i in range(0, len(input_), 3):
     badge = list(set(input_[i]) & set(input_[i+1]) & set(input_[i+2]))[0]
     total2 += get_priority(badge)
 
-print ("Day 3-2: Total Priorities", end = ": ")
-print(total2)
+print (f"Day 3-2: Total Priorities: {total2}")
