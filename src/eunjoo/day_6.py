@@ -16,20 +16,18 @@ with open(input_path, 'r') as f:
 # Day 6-2: 14 consecutive different characters // index the last
 
 
-def find_fst_marker_ind(str_, n = 4):
+def find_fst_marker_ind(str_, n):
     int_inp = [*str_]
-    a_set = int_inp[0:n]
     i = n
     while i < len(int_inp):
+        a_set = int_inp[i-n: i]
         if len(set(a_set)) == n: 
             break
         else:
-            a_set.pop(0)
-            a_set.append(int_inp[i])
             i += 1
     return i, ''.join(a_set)
 
-print (f"Day 6-1: Start-of-packet ind: {find_fst_marker_ind(input_)}")
+print (f"Day 6-1: Start-of-packet ind: {find_fst_marker_ind(input_, n = 4)}")
 print (f"Day 6-2: Start-of-message ind: {find_fst_marker_ind(input_, n = 14)}")
 
 
