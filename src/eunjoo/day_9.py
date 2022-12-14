@@ -45,7 +45,6 @@ that tail visited at least once
 # If the dist > 1
 #     whichever coord that is max(abs(diff)) gets - 1 for Tail
     
-import copy
 
 input_path = '../input/221209.txt'
 
