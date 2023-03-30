@@ -1,109 +1,55 @@
-import pandas as pd
-import numpy as np
-import pytest
-import main
-import data
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+"""
+Created on Fri Dec  2 15:19:28 2022
+@author: eunjoob
+"""
 
-FILE = "../data/day_2.txt"
+## Day 2-1
+# A B C : X Y Z : Rock Paper Scissor : 1 2 3
 
+input_path = '../input/221202_1.txt'
 
-def build_df(df):
-	game_df = pd.DataFrame()
-	final_df = pd.DataFrame()
-	game_df = df.iloc[:,0].apply(lambda x: x.replace("A", '1'))\
-		.apply(lambda x: x.replace("B", '2'))\
-		.apply(lambda x: x.replace("C", '3'))\
-		.apply(lambda x: x.replace("X", '1'))\
-		.apply(lambda x: x.replace("Y", '2'))\
-		.apply(lambda x: x.replace("Z", '3'))
-	#game_df[['Elf', 'Me']] = df.iloc[:, 0].apply(lambda x: pd.Series(str(x).split()))
-	
-	final_df[['Elf', 'Me']] = game_df.apply(lambda x: pd.Series(str(x).split()))
-	final_df['Elf'].astype(int)
-	final_df['Me'].astype(int)
-	final_df[['Elf_Threw', 'I_Throw']] = df.iloc[:,0].apply(lambda x: pd.Series(str(x).split()))
-	final_df['Elf_Threw'].replace({'A': 'rock', 'B': 'paper', 'C':'scissors'}, regex=True, inplace=True)
-	#final_df['I_Throw'].replace({'X': 'rock', 'Y': 'paper', 'Z': 'scissors'}, regex=True, inplace=True)
-	#updating for day 2 lose,draw,win
-	final_df['I_Throw'].replace({'X': 'lose', 'Y': 'draw', 'Z': 'win'}, regex=True, inplace=True)
-	
-	
-	final_df.rename_axis('idx', inplace=True)
-	
-	final_df['score'] = final_df.apply(lambda row: score(str(row['Elf_Threw']), row['I_Throw']), axis=1)
-	final_df['score'].astype(int)
-	final_df['total_score'] = final_df.apply(lambda row: np.add(int(row['score']), int(row['Me'])), axis=1)
-	final_df['total_score'] = final_df.apply(lambda row: queued_score(row['Elf_Threw'], row['I_Throw']), axis=1)
-	print(final_df)
-	#print(final_df['total_score'] == 1)
-	#print(np.sum(final_df['total_score']))
-	return final_df
-	
-	
-def score(elf, me):
-	#print(elf, me)
-	if str(elf) == 'scissors' and (str(me)!='scissors'):
-		if me == 'paper':
-			return 0
-		else:
-			return 6
-	
-	elif str(elf) == 'rock' and str(me) != 'rock':
-		if me == 'scissors':
-			return 0
-		else:
-			return 6
-		
-	elif str(elf) == 'paper' and str(me) != 'paper':
-		if me == 'rock':
-			return 0
-		else:
-			return 6
-		
-	else:
-		return 3
-	
+with open(input_path, 'r') as f:
+    input_ = f.read().splitlines()
 
-def queued_score(elf: str, me: str) -> int:
-	ROCK = 1
-	PAPER = 2
-	SCISSORS = 3
-	
-	if str(me) == 'draw':
-		if str(elf) == 'scissors':
-			return 3+3
-		elif str(elf) == 'paper':
-			return 2 + 3
-		else:
-			return 1 + 3
-		
-	elif str(elf) == 'scissors':
-		if me == 'lose':
-			return 2 + 0
-		elif me == 'win':
-			return 1 + 6
-	
-	elif str(elf) == 'rock':
-		if me == 'lose':
-			return 3 + 0
-		elif me == 'win':
-			return 2 + 6
-	
-	elif str(elf) == 'paper':
-		if me == 'lose':
-			return ROCK + 0
-		elif me == 'win':
-			return SCISSORS + 6
+score_map = {'C Y': 2, 'B X': 1, 'A Z': 3, 
+             'C Z': 6, 'B Y': 5, 'A X': 4, 
+             'C X': 7, 'B Z': 9, 'A Y': 8}
+total = 0
+for p in input_: 
+    sc = score_map[p]
+    total += sc    
 
-	
+print (f"Day 2-1: Total Score: {total}")
 
 
-if __name__ == "__main__":
-	# print(read_data_to_df(FILE))
-	# print(read_data_with_nulls(FILE)[:10])
-	df = main.read_data_to_df(FILE)
-	day_2_df = build_df(df)
-	solution = np.sum(day_2_df['total_score'])
-	print(solution)
+## Day 2-2
+# A B C : Rock Paper Scissor : 1 2 3 
+# X Y Z : W D L : 0 3 6
 
-	
+hands = [x.split(' ') for x in input_]
+
+# outcome score
+outcome_map = {'X': 0, 'Y': 3, 'Z': 6}
+outcomes = [outcome_map[x[1]] for x in hands]
+
+# hand score
+# {'op_hand': [w, d, l]}
+guide = {'A': [2, 1, 3], 'B': [3, 2, 1], 'C': [1, 3, 2]}
+
+total_2 = 0
+for x in input_: 
+    hands = x.split(' ')
+    op_hand = hands[0]
+    if hands[1] == 'X': 
+        total_2 += guide[op_hand][2]
+    elif hands[1] == 'Y':
+        total_2 += guide[op_hand][1]
+    elif hands[1] == 'Z':
+        total_2 += guide[op_hand][0]
+    else:
+        "something's wrong"
+
+print (f"Day 2-2: Total Score (2): {sum(outcomes)+total_2}")
+
